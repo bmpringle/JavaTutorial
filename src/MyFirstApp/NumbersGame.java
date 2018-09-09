@@ -1,7 +1,7 @@
 package MyFirstApp;
 
-
-
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -13,27 +13,25 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
 
 
-
-
 public class NumbersGame 
 {
 	
-	static char caracter= 'b';
-	
-	
+	static int np = -1;
+	static int w=0;
+	static int g = 5;
+	static String str = "-1";
+
 	public static void main(String[] args) 
 	{	
+		
 
-		 
-		String str;
-			
-		int np = -1;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Font font1 = new Font("SansSerif", Font.BOLD, 100);
 		JTextField textField = new JTextField();
@@ -41,47 +39,34 @@ public class NumbersGame
 		textField.setPreferredSize(screenSize);
 		textField.setFont(font1);
 		textField.setText("-1");
-		str=textField.getText();
+		//str=textField.getText();
 		
-		
-		textField.addKeyListener(new KeyAdapter() 
-		{
-            public void keyTyped(KeyEvent e) 
-            {
-                if((caracter > '0') || (caracter < '9'))
-                {
-            	caracter = e.getKeyChar();
-                if (((caracter < '0') || (caracter > '9'))
-                        && (caracter != '\b')) 
-                	{
+		textField.addKeyListener(new KeyAdapter() {
+            public void keyTyped(KeyEvent e) {
+				//if (e.getKeyCode()==KeyEvent.VK_ENTER){
+				//	if(str=="-1") {
+				//		np=-1;
+				//	}
+				//}
+				char caracter = e.getKeyChar();
+                if(((caracter < '0') || (caracter > '9'))
+                        && (caracter != '\b')) {
                     e.consume();
-                
-                    }
-                
-                }
-                if (e.getKeyCode()==KeyEvent.VK_ENTER){
-       	    	 if(str=="-1") 
-       	    	 	{
-       	    		 
-       	    		  np=-1;
-       	    	
-       	    	 	}else 
-       	    	 	{
-       	    		  np=Integer.parseInt(str);
-       	    		 
-       	    	 	}
-                }
+                } //else {
+       	    	//	np=Integer.parseInt(str); 
+       	    	//}
             }
-        });
+		});
 		
-		int g=5;
+
+
 		Random rand = new Random();
 		int n=rand.nextInt(51);
 		
-		int w=0;
+	
 		
 		JLabel label1 = new JLabel("Test");
-		label1.setText("Try to guess my number from 1 to 50! You have "+g+" guesses left(Make sure to type 0 before a one digit number)");
+		label1.setText("Try to guess my number from 1 to 50! You have "+g+" guesses left");
 		label1.setHorizontalAlignment(SwingConstants.CENTER);
 		label1.setVerticalAlignment(SwingConstants.CENTER);
 		
@@ -97,14 +82,52 @@ public class NumbersGame
 		frame.pack();
 		frame.setVisible(true);
 		
-		
-		
-		
+
+		Action action = new AbstractAction()
+		{
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				System.out.println("some action");
+				label1.setText("Enter");
+				str=textField.getText();
+				np=Integer.parseInt(str);
+				if(np != -1) 
+				{	
+					if(np==n) 
+					{
+						w=1;
+						label1.setText("Correct! You Win");
+					}
+					else if(np < n) 
+					{
+						g=g-1;
+						if(g==0) 
+						{
+							w=-1;
+						}
+						label1.setText("Too Low! You have "+g+ " guesses left! "+n+" is the number.");
+					}else
+					{
+						g=g-1;
+						if(g==0) 
+						{
+							w=-1;
+						}
+						label1.setText("Too High! You have "+g+ " guesses left! "+n+" is the number.");
+					}
+			
+				}
+			}
+		};
+		textField.addActionListener(action);
+
+
 		while (w==0) 
 		{
-			
-			 
-			
+
 			 //np=Integer.parseInt(textField.getText());
 			 
 			 
@@ -122,35 +145,6 @@ public class NumbersGame
 			
 			//System.out.println(Integer.parseInt(textField.getText()));
 			
-			if(np != -1) 
-			{	
-				if(np==n) 
-				{
-					w=1;
-					label1.setText("Correct! You Win");
-			
- 
-				}else if(np < n) 
-				{
-		 		g=g-1;
-		 		if(g==0) 
-			 	{
-				w=-1;
-			 	}
-			 
-			 	label1.setText("Too Low! You have "+g+ " guesses left!(Make sure to type 0 before a one digit number)");
-		 		}else
-		 		{
-		 			g=g-1;
-		 			if(g==0) 
-		 			{
-		 				w=-1;
-		 			}
-			 
-		 			label1.setText("Too High! You have "+g+ " guesses left!(Make sure to type 0 before a one digit number)");
-		 		}
-		 
-			}
 		
 		}
 		if(w==1) 
@@ -161,9 +155,6 @@ public class NumbersGame
 		 label1.setText("You Lost! The correct answer was "+g+" Try Again!");
 		 
 		}
-	
-	
 	}
-}
 	
-
+}
