@@ -21,18 +21,19 @@ import java.util.Random;
 
 
 
-public class NumbersGame {
+public class NumbersGame 
+{
 	
 	static char caracter= 'b';
 	
 	
 	public static void main(String[] args) 
 	{	
-		
+
 		 
 		String str;
 			
-		
+		int np = -1;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Font font1 = new Font("SansSerif", Font.BOLD, 100);
 		JTextField textField = new JTextField();
@@ -43,28 +44,33 @@ public class NumbersGame {
 		str=textField.getText();
 		
 		
-		textField.addKeyListener(new KeyAdapter() {
-            public void keyTyped(KeyEvent e) {
+		textField.addKeyListener(new KeyAdapter() 
+		{
+            public void keyTyped(KeyEvent e) 
+            {
                 if((caracter > '0') || (caracter < '9'))
                 {
             	caracter = e.getKeyChar();
                 if (((caracter < '0') || (caracter > '9'))
-                        && (caracter != '\b')) {
+                        && (caracter != '\b')) 
+                	{
                     e.consume();
                 
                     }
                 
                 }
                 if (e.getKeyCode()==KeyEvent.VK_ENTER){
-       	    	 if(str=="-1") {
+       	    	 if(str=="-1") 
+       	    	 	{
        	    		 
-       	    		 int np=-1;
+       	    		  np=-1;
        	    	
-       	    	 }else {
-       	    		 int np=Integer.parseInt(str);
+       	    	 	}else 
+       	    	 	{
+       	    		  np=Integer.parseInt(str);
        	    		 
-       	    	 }
-       	    }
+       	    	 	}
+                }
             }
         });
 		
@@ -94,7 +100,8 @@ public class NumbersGame {
 		
 		
 		
-		while (w==0) {
+		while (w==0) 
+		{
 			
 			 
 			
@@ -115,42 +122,48 @@ public class NumbersGame {
 			
 			//System.out.println(Integer.parseInt(textField.getText()));
 			
-		if(np != -1) {	
-		 if(np==n) 
-		 {
-			 w=1;
-			label1.setText("Correct! You Win");
+			if(np != -1) 
+			{	
+				if(np==n) 
+				{
+					w=1;
+					label1.setText("Correct! You Win");
 			
  
-		 }else if(np < n) 
-		 {
-			 g=g-1;
-			 if(g==0) {
-				 w=-1;
-			 }
+				}else if(np < n) 
+				{
+		 		g=g-1;
+		 		if(g==0) 
+			 	{
+				w=-1;
+			 	}
 			 
-			 label1.setText("Too Low! You have "+g+ " guesses left!(Make sure to type 0 before a one digit number)");
-		 }else{
-			 g=g-1;
-			 if(g==0) {
-				 w=-1;
-			 }
+			 	label1.setText("Too Low! You have "+g+ " guesses left!(Make sure to type 0 before a one digit number)");
+		 		}else
+		 		{
+		 			g=g-1;
+		 			if(g==0) 
+		 			{
+		 				w=-1;
+		 			}
 			 
-			 label1.setText("Too High! You have "+g+ " guesses left!(Make sure to type 0 before a one digit number)");
-		 }
+		 			label1.setText("Too High! You have "+g+ " guesses left!(Make sure to type 0 before a one digit number)");
+		 		}
 		 
-		}
+			}
 		
 		}
-		if(w==1) {
+		if(w==1) 
+		{
 			
-	}else{
+		}else
+		{
 		 label1.setText("You Lost! The correct answer was "+g+" Try Again!");
 		 
 		}
 	
 	
-}
+	}
 }
 	
 
