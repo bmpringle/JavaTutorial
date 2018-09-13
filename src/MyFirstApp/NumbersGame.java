@@ -19,12 +19,20 @@ import java.awt.event.KeyEvent;
 import java.util.Random;
 
 
+
+
 public class NumbersGame 
 {
+	
 	static int np = -1;
 	static int w=0;
 	static int g = 5;
 	static String str = "-1";
+	static Random rand = new Random();
+	static int n=rand.nextInt(50)+1;
+	static int x=1;
+	static int y=3;
+	static int z=0;
 
 	public static void main(String[] args) 
 	{	
@@ -47,15 +55,14 @@ public class NumbersGame
             }
 		});
 		
-		Random rand = new Random();
-		int n=rand.nextInt(51);
+		
 		
 		JLabel label1 = new JLabel("Test");
 		label1.setText("Try to guess my number from 1 to 50! You have "+g+" guesses left");
 		label1.setHorizontalAlignment(SwingConstants.CENTER);
 		label1.setVerticalAlignment(SwingConstants.CENTER);
 		
-		JFrame frame = new JFrame("FrameExp");
+		JFrame frame = new JFrame("NumbersGame");
 		
 		Container contentPane = frame.getContentPane();
 		contentPane.setLayout(new FlowLayout());
@@ -74,11 +81,16 @@ public class NumbersGame
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				System.out.println("some action");
-				label1.setText("Enter");
+				
 				str=textField.getText();
+				try {
 				np=Integer.parseInt(str);
-				if(np != -1) 
+				}
+				catch(NumberFormatException f) {
+					np=-1;
+					str="-1";
+				}
+				if(np != -1 && y==3) 
 				{	
 					if(np==n) 
 					{
@@ -91,7 +103,7 @@ public class NumbersGame
 						{
 							w=-1;
 						}
-						label1.setText("Too Low! You have "+g+ " guesses left! "+n+" is the number.");
+						label1.setText("Too Low! You have "+g+ " guesses left!");
 					}else
 					{
 						g=g-1;
@@ -99,16 +111,31 @@ public class NumbersGame
 						{
 							w=-1;
 						}
-						label1.setText("Too High! You have "+g+ " guesses left! "+n+" is the number.");
+						label1.setText("Too High! You have "+g+ " guesses left!");
 					}
 					
 					if(w==1) 
 					{
 						label1.setText("Correct! You Win");
+						x=2;
+						y=2;
 					}else if(w==-1) 
 					{
 						label1.setText("You Lost! The correct answer was "+n+" Try Again!");	
+						x=2;
+						y=2;
 					}
+				}
+				if(x==2 & y==1) {
+					label1.setText("Try to guess my number from 1 to 50! You have "+g+" guesses left");
+					 n=rand.nextInt(50)+1;
+					 y=3;
+					 x=1;
+				}else if(y==2) {
+					g=5;
+					y=1;
+					w=0;
+					z=1;
 				}
 			}
 		};
